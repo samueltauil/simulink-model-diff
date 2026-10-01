@@ -25,6 +25,7 @@ jobs:
         with:
           include: |
             samples/cardiac-digital-twin/*.model.json
+          extractor-command: python tools/demo_extract_canonical.py {artifact}
           fail-on: none
 
       - name: Upload model drift reports
