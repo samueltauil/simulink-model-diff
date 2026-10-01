@@ -1,0 +1,37 @@
+name: Demo model drift review
+
+on:
+  pull_request:
+    paths:
+      - "samples/**/*.model.json"
+
+permissions:
+  contents: read
+
+jobs:
+  model-drift:
+    name: Analyze model drift
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out pull request history
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Analyze model drift
+        id: drift
+        uses: samueltauil/simulink-model-diff@v0.3.1
+        with:
+          include: |
+            samples/**/*.model.json
+          fail-on: none
+
+      - name: Upload model drift reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: simulink-model-drift-${{ github.run_id }}
+          path: build/model-drift
+          if-no-files-found: error
+          retention-days: 7
