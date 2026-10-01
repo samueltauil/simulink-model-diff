@@ -24,7 +24,7 @@ jobs:
         uses: samueltauil/simulink-model-diff@v0.3.1
         with:
           include: |
-            samples/**/*.model.json
+            samples/cardiac-digital-twin/*.model.json
           fail-on: none
 
       - name: Upload model drift reports
